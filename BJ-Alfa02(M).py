@@ -256,6 +256,19 @@ def dealerturn(reka_dilera, przetasowane, rece_gracza, money, debt, stawki):
 
 
 def kredyt(money, debt):
+    if debt > 12500:
+        if random.random() < 0.40:
+            print("\n" + "!" * 40)
+            print("Time's up. You haven't paid down your loan.")
+            print("You died.")
+            exit()
+
+    if debt > 5000:
+        print(f"\n Debt is too high ({debt}). The bank has blocked further loans.")
+        print("Pay down your loan soon, or else.")
+        time.sleep(3)
+        return money, debt
+
     kredyta = [500, 2500, 5000]
     while True:
         opcja1 = input("Take a loan, or game over Cristopher? (y/n): ").lower()
@@ -305,5 +318,5 @@ while True:
         confirm()
         break
     except ResetFunkcji:
-        print("\n[!] 'Przeładowanie matrix' \n")
+        print("\n 'Przeładowanie matrix' \n")
         continue
