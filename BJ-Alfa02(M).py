@@ -9,7 +9,7 @@ class ResetFunkcji(Exception):
     pass
 
 
-WARTOSCI = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
+war_kart = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
             'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 
 
@@ -18,7 +18,7 @@ def gra():
     debt = 2000
     while True:
         os.system("cls" if os.name == "nt" else "clear")
-        print("=== NEW HAND ===")
+        print(" NEW HAND ")
         print("Money: ", money)
         print("Debt: ", debt)
         money, debt = bet(money, debt)
@@ -27,7 +27,7 @@ def gra():
             debt = int(debt * 1.05)
             print(f"Interest applied (+5%). New Debt: {debt}")
 
-        print("\n-------------------")
+        print("\n")
         dalej = input("Play another hand? (y/n): ").lower()
         if dalej not in ("y", "yes", "tak"):
             menu_aktywne = True
@@ -87,7 +87,7 @@ def hit_me(deck):
 
 
 def oblicz_punkty(reka_gracza):
-    suma = sum(WARTOSCI[str(karta)] for karta in reka_gracza)
+    suma = sum(war_kart[str(karta)] for karta in reka_gracza)
     asy = sum(1 for karta in reka_gracza if str(karta) == 'A')
     while suma > 21 and asy > 0:
         suma -= 10
@@ -159,11 +159,11 @@ def hitstand(przetasowane, rece_gracza, reka_dilera, money, debt, stawki):
             if punkty_gracza >= 21:
                 break
 
-            print(f"\n--- Playing Hand {i + 1} of {len(rece_gracza)} ---")
+            print(f"\n Playing Hand {i + 1} of {len(rece_gracza)} ")
             print(f"Your cards: {', '.join(map(str, reka_aktualna))} (Sum: {punkty_gracza})")
 
             opcje = "hit or stand"
-            moze_split = len(reka_aktualna) == 2 and WARTOSCI[str(reka_aktualna[0])] == WARTOSCI[str(reka_aktualna[1])]
+            moze_split = len(reka_aktualna) == 2 and war_kart[str(reka_aktualna[0])] == war_kart[str(reka_aktualna[1])]
             moze_double = len(reka_aktualna) == 2 and money >= stawki[i]
 
             if moze_split: opcje += ", split"
@@ -230,7 +230,7 @@ def dealerturn(reka_dilera, przetasowane, rece_gracza, money, debt, stawki):
     else:
         print("Dealer wins automatically because all your hands busted.")
 
-    print("\n--- Results ---")
+    print("\n Results ")
     print(f"Dealer's final points: {punkty_dilera}")
 
     for idx, reka in enumerate(rece_gracza):
@@ -305,5 +305,5 @@ while True:
         confirm()
         break
     except ResetFunkcji:
-        print("\n[!] Reloading the Matrix - Resetting Game...\n")
+        print("\n[!] 'Przeładowanie matrix' \n")
         continue
