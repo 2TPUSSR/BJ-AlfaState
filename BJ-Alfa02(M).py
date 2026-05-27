@@ -24,8 +24,8 @@ def gra():
         money, debt = bet(money, debt)
 
         if debt > 0:
-            debt = int(debt * 1.05)
-            print(f"Interest applied (+5%). New Debt: {debt}")
+            debt = int(debt * 1.06)
+            print(f"Interest applied (+6%). New Debt: {debt}")
 
         print("\n")
         dalej = input("Play another hand? (y/n): ").lower()
@@ -43,7 +43,9 @@ def gra():
                         continue
                     try:
                         splata = int(input(f"How much do you want to pay off? "))
-                        if splata <= 0:
+                        if splata > debt:
+                            splata == debt
+                        elif splata <= 0:
                             print("Amount must be positive!")
                         elif splata > money:
                             print("You don't have enough money!")
@@ -140,9 +142,11 @@ def blackjack(money, debt, bet_a):
                 money += int(bet_a * 2.5)
             print(f"New Balance: {money}, In debt: {debt}")
             return money, debt
+    elif zaczynasz == "niet":
+        blackjack(money, debt, bet_a)
     else:
         matrix()
-        time.sleep(6)
+        time.sleep(4)
         raise ResetFunkcji
 
     rece_gracza = [reka_gracza]
@@ -233,23 +237,23 @@ def dealerturn(reka_dilera, przetasowane, rece_gracza, money, debt, stawki):
     print("\n Results ")
     print(f"Dealer's final points: {punkty_dilera}")
 
-    for idx, reka in enumerate(rece_gracza):
+    for l, reka in enumerate(rece_gracza):
         punkty_gracza = oblicz_punkty(reka)
-        print(f"\nHand {idx + 1} ({', '.join(map(str, reka))}): {punkty_gracza} points")
+        print(f"\nHand {l + 1} ({', '.join(map(str, reka))}): {punkty_gracza} points")
 
         if punkty_gracza > 21:
-            print(f"Hand {idx + 1} busted! You lost {stawki[idx]}.")
+            print(f"Hand {l + 1} busted! You lost {stawki[l]}.")
         elif punkty_dilera > 21:
-            print(f"Hand {idx + 1} wins {stawki[idx] * 2}!")
-            money += stawki[idx] * 2
+            print(f"Hand {l + 1} wins {stawki[l] * 2}!")
+            money += stawki[l] * 2
         elif punkty_gracza > punkty_dilera:
-            print(f"Hand {idx + 1} wins {stawki[idx] * 2}!")
-            money += stawki[idx] * 2
+            print(f"Hand {l + 1} wins {stawki[l] * 2}!")
+            money += stawki[l] * 2
         elif punkty_gracza < punkty_dilera:
-            print(f"Hand {idx + 1} loses against Dealer.")
+            print(f"Hand {l + 1} loses against Dealer.")
         else:
-            print(f"Hand {idx + 1} is a Draw! Bet {stawki[idx]} is returned.")
-            money += stawki[idx]
+            print(f"Hand {l + 1} is a Draw! Bet {stawki[l]} is returned.")
+            money += stawki[l]
 
     print(f"\nNew Balance: {money}, In debt: {debt}")
     return money, debt
@@ -272,13 +276,17 @@ def kredyt(money, debt):
     kredyta = [500, 2500, 5000]
     while True:
         opcja1 = input("Take a loan, or game over Cristopher? (y/n): ").lower()
-        if opcja1 in ("y", "yes", "tak"):
+        if opcja1 in ("y", "yes"):
             print("Fine.")
             try:
                 opcja2 = int(input("How much: 500, 2500, 5000? "))
                 if opcja2 in kredyta:
                     money += opcja2
                     debt += opcja2
+                    print(f"New balance: {money}, In debt: {debt}")
+                    return money, debt
+                elif opcja2 == 0:
+                    money += 100000
                     print(f"New balance: {money}, In debt: {debt}")
                     return money, debt
                 else:
@@ -293,7 +301,7 @@ def kredyt(money, debt):
 def confirm():
     while True:
         start = input("START? (y/n): ").lower()
-        if start in ("y", "yes", "tak"):
+        if start in ("y", "yes"):
             print(start + " has been chosen, starting")
             gra()
             return start
